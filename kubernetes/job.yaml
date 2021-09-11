@@ -1,0 +1,30 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: superset-init
+  namespace: superset
+spec:
+  backoffLimit: 4
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: superset-init
+          image: $ACR_LOGIN_SERVER/superset_base
+          args: ["/app/docker/docker-init.sh"]
+          envFrom:
+          - configMapRef:
+              name: superset-environment-variables
+          env:
+          - name: SUPERSET_LOAD_EXAMPLES
+            value: "yes"
+          - name: DATABASE_USER
+            valueFrom:
+              secretKeyRef:
+                name: backend-database-credentials
+                key: username
+          - name: DATABASE_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: backend-database-credentials
+                key: password

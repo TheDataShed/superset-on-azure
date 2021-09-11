@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: superset-environment-variables
+  namespace: superset
+data:
+  DATABASE_DB: postgres
+  DATABASE_DIALECT: postgresql
+  DATABASE_HOST: $DATABASE_HOST
+  DATABASE_PORT: "5432"
+  FLASK_ENV: production
+  PYTHONPATH: /app/pythonpath:/app/docker/pythonpath_dev
+  REDIS_HOST: $REDIS_HOST
+  REDIS_PORT: "$REDIS_PORT"
+  SUPERSET_ENV: production
+  SUPERSET_PORT: "8088"
